@@ -18,6 +18,26 @@
 //= require underscore
 //
 //= require_tree ./models
+//= require_tree ./views
 //= require_tree ../templates
 //
 //= require_tree .
+
+
+PT.initialize = function() {
+  var view = new PhotosListView();
+
+  var detail = new PhotoDetailView();
+  PT.Photo.fetchByUserID(window.currentUserId, function () {
+    view.render();
+    detail.photo = PT.Photo.all[0];
+    detail.render();
+  });
+
+  var formView = new PhotoFormView().render();
+
+
+  $("div#content").append(view.$el).append(formView.$el);
+  $("div#content").append(detail.$el);
+};
+
